@@ -1,6 +1,6 @@
 package mindexpander.exceptions;
 
-public class IllegalCommandException extends Exception {
+public class IllegalCommandException extends RuntimeException {
     public IllegalCommandException(String message) {
         super(message);
     }

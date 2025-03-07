@@ -1,14 +1,14 @@
 package mindexpander.commands;
 
 /**
- * The {@code Help} class updates display message
+ * The {@code HelpCommand} class updates display message
  * to show the list of commands and their functions.
  *
  * @author Wenyi
  * @version v0.2
  * @since 2025-03-06
  */
-public class Help extends Command {
+public class HelpCommand extends Command {
     /*
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
@@ -29,7 +29,7 @@ public class Help extends Command {
                 - Edit a question in the list.
             """;
 
-    public Help() {
+    public HelpCommand() {
         updateCommandMessage(HELP_MESSAGE);
     }
 }
