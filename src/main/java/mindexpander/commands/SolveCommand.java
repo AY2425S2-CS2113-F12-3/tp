@@ -31,7 +31,7 @@ public class SolveCommand extends Command {
             }
             updateCommandMessage("Correct!");
             isComplete = true;
-            return new Command(); // Exit multi-step mode
+            return this; // Exit multi-step mode
 
         default:
             return this; // Default return, should not reach here

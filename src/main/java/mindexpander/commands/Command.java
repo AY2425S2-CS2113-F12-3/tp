@@ -23,6 +23,15 @@ public class Command {
     }
 
     /**
+     * Returns the command message associated with this command. Useful for testing commands.
+     *
+     * @return {@code commandMessage} the command message associated with this command.
+     */
+    public String getCommandMessage() {
+        return commandMessage;
+    }
+
+    /**
      * Determines whether the program should continue running after executing this command.
      * Returns {@code true} by default. Is overwritten by {@code ExitCommand} to return false.
      *
