@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * JUnit test class for {@code SolveCommand}.
  *
  * @author Wenyi
- * @version 1.0
+ * @version 1.1
  * @since 2025-02-15
  */
 class SolveCommandTest {
@@ -39,7 +39,8 @@ class SolveCommandTest {
     @Test
     void testValidQuestionIndex() {
         solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        assertEquals("Attempting question 1, enter your answer:", solveCommand.getCommandMessage());
+        assertTrue(solveCommand.getCommandMessage().contains("Attempting question 1"));
+        assertTrue(solveCommand.getCommandMessage().contains("Enter your answer:"));
         assertFalse(solveCommand.isCommandComplete());
     }
 
@@ -69,7 +70,38 @@ class SolveCommandTest {
     void testIncorrectAnswer() {
         solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
         solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
-        assertEquals("Wrong answer, please try again.", solveCommand.getCommandMessage());
+        assertEquals("Wrong answer, would you like to try again? [Y/N]", solveCommand.getCommandMessage());
+        assertFalse(solveCommand.isCommandComplete());
+    }
+
+    @Test
+    void testRetryIncorrectAnswer() {
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Y", questionBank);
+        assertEquals("Enter your answer to try again: ", solveCommand.getCommandMessage());
+
+        // Correct answer after retrying
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Tokyo", questionBank);
+        assertEquals("Correct!", solveCommand.getCommandMessage());
+        assertTrue(solveCommand.isCommandComplete());
+    }
+
+    @Test
+    void testGiveUpAfterIncorrectAnswer() {
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("N", questionBank);
+        assertEquals("Giving up on question.", solveCommand.getCommandMessage());
+        assertTrue(solveCommand.isCommandComplete());
+    }
+
+    @Test
+    void testInvalidRetryResponse() {
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
+        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Maybe", questionBank);
+        assertEquals("Please enter Y or N.", solveCommand.getCommandMessage());
         assertFalse(solveCommand.isCommandComplete());
     }
 }

@@ -5,7 +5,7 @@ import mindexpander.data.question.Question;
 import mindexpander.data.QuestionBank;
 
 public class SolveCommand extends Command {
-    private enum Step { GET_INDEX, GET_ANSWER }
+    private enum Step { GET_INDEX, GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
     private Step currentStep = Step.GET_INDEX;
     private int questionIndex = -1;
 
@@ -26,12 +26,26 @@ public class SolveCommand extends Command {
             String correctAnswer = question.getAnswer();
 
             if (!nextInput.trim().equalsIgnoreCase(correctAnswer.trim())) {
-                updateCommandMessage("Wrong answer, please try again.");
+                updateCommandMessage("Wrong answer, would you like to try again? [Y/N]");
+                currentStep = Step.GET_TRY_AGAIN_RESPONSE;
                 return this; // Try again
             }
             updateCommandMessage("Correct!");
             isComplete = true;
             return this; // Exit multi-step mode
+        case GET_TRY_AGAIN_RESPONSE:
+            if (nextInput.trim().equalsIgnoreCase("Y")) {
+                updateCommandMessage("Enter your answer to try again: ");
+                currentStep = Step.GET_ANSWER;
+                return this; // Try again
+            }
+            if (nextInput.trim().equalsIgnoreCase("N")) {
+                updateCommandMessage("Giving up on question.");
+                isComplete = true;
+                return this;
+            }
+            updateCommandMessage("Please enter Y or N.");
+            return this;
 
         default:
             return this; // Default return, should not reach here
@@ -47,7 +61,8 @@ public class SolveCommand extends Command {
             }
 
             currentStep = Step.GET_ANSWER;
-            return "Attempting question " + (questionIndex + 1) + ", enter your answer:";
+            String questionDetails = questionBank.getQuestion(questionIndex).getQuestion();
+            return "Attempting question " + (questionIndex + 1) + ": " + questionDetails + "\nEnter your answer:";
         } catch (NumberFormatException e) {
             return "Invalid input. Please enter a number." ;
         }
