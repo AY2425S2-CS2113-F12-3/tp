@@ -27,6 +27,8 @@ public class HelpCommand extends Command {
                 - Attempt to solve a question.
             5. edit
                 - Edit a question in the list.
+            6. find
+                - Find a question in the list that contains a specific keyword.
             """;
 
     public HelpCommand() {

@@ -20,4 +20,5 @@ public class Messages {
         "Type <help> for a list of commands."};
     public static final String UNKNOWN_COMMAND_MESSAGE = "You have entered an unknown command." +
         " Please refer to the user guide, or type <help> to display the available commands";
+    public static final String DISPLAYED_INDEX_OFFSET = ". ";
 }

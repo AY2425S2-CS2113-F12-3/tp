@@ -15,9 +15,13 @@ public abstract class Question {
         return question;
     }
 
-    public String getAnswer() { return answer; }
+    public String getAnswer() {
+        return answer;
+    }
 
-    public QuestionType getType() { return this.type; }
+    public QuestionType getType() {
+        return this.type;
+    }
 
     public void editQuestion(String newQuestion) {
         this.question = newQuestion;
@@ -32,4 +36,6 @@ public abstract class Question {
     public abstract void showQuestion();
 
     public abstract String toString();
+
+    public abstract String toStringNoAnswer();
 }

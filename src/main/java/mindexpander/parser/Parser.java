@@ -1,13 +1,13 @@
 package mindexpander.parser;
 
+// Commands
 import mindexpander.commands.Command;
 import mindexpander.commands.AddCommand;
 import mindexpander.commands.HelpCommand;
 import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
 import mindexpander.commands.SolveCommand;
-
-// Commands
+import mindexpander.commands.FindCommand;
 
 // Exceptions
 import mindexpander.commands.SolveCommandOneStep;
@@ -63,8 +63,39 @@ public class Parser {
             yield new SolveCommandOneStep(taskDetails, questionBank);
         }
         case "add" -> new AddCommand();
-        case "list" -> new ListCommand(questionBank);
+        case "list" -> {
+            if (taskDetails.trim().equalsIgnoreCase("answer")) {
+                yield new ListCommand(questionBank, true);
+            } else if (taskDetails.trim().isEmpty()) {
+                yield new ListCommand(questionBank, false);
+            } else {
+                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            }
+        }
+        case "find" -> {
+            if (taskDetails.trim().isEmpty()) {
+                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            }
 
+            String[] parts = taskDetails.trim().split("\\s+", 2);
+            String questionType;
+            String keyword;
+            if (parts.length == 2
+                    && (parts[0].equalsIgnoreCase("mcq")
+                    || parts[0].equalsIgnoreCase("fitb"))) {
+                questionType = parts[0].toLowerCase();
+                keyword = parts[1];
+            } else if (parts.length == 1) {
+                if (parts[0].equalsIgnoreCase("mcq") || parts[0].equalsIgnoreCase("fitb")) {
+                    throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+                }
+                questionType = "all";
+                keyword = taskDetails;
+            } else {
+                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            }
+            yield new FindCommand(questionBank, questionType, keyword);
+        }
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }

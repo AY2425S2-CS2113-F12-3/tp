@@ -18,4 +18,9 @@ public class FillInTheBlanks extends Question {
     public String toString() {
         return "FITB: " + question + " [Answer: " + answer + "]";
     }
+
+    @Override
+    public String toStringNoAnswer() {
+        return "FITB: " + question;
+    }
 }

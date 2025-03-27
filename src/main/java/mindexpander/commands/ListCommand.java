@@ -14,10 +14,12 @@ public class ListCommand extends Command {
     // Attributes
     private static final String LIST_COMMAND_MESSAGE = "Here are the questions you have currently: ";
     private final QuestionBank questionBank;
+    private final boolean showAnswer;
 
     // Constructor
-    public ListCommand(QuestionBank questionBank) {
+    public ListCommand(QuestionBank questionBank, Boolean showAnswer) {
         this.questionBank = questionBank;
+        this.showAnswer = showAnswer;
         updateCommandMessage(LIST_COMMAND_MESSAGE);
     }
 
@@ -27,6 +29,6 @@ public class ListCommand extends Command {
         String messageToUser = questionBank.getQuestionCount() == 0
                 ? "You have no questions yet!"
                 : "Here are the questions you have stored:";
-        return new CommandResult(messageToUser, questionBank);
+        return new CommandResult(messageToUser, questionBank, showAnswer);
     }
 }
