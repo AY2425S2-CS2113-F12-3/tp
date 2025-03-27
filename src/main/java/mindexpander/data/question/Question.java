@@ -15,9 +15,13 @@ public abstract class Question {
         return question;
     }
 
-    public String getAnswer() { return answer; }
+    public String getAnswer() {
+        return answer;
+    }
 
-    public QuestionType getType() { return this.type; }
+    public QuestionType getType() {
+        return this.type;
+    }
 
     public void editQuestion(String newQuestion) {
         this.question = newQuestion;
