@@ -16,7 +16,8 @@ public class AddCommandTest {
     void testInitialState() {
         AddCommand addCommand = new AddCommand();
         assertFalse(addCommand.isCommandComplete());
-        assertEquals("Please enter the type of the question you would like to add.", addCommand.getCommandMessage());
+        assertEquals("Please enter the type of the question you would like to add. (fitb/mcq/tf)",
+                addCommand.getCommandMessage());
     }
 
     @Test
@@ -26,7 +27,8 @@ public class AddCommandTest {
         final String[] invalidTypes = {"abc", "[]\\[;]", "question"};
         for (String type : invalidTypes) {
             addCommand.handleMultistepCommand(type, questionBank);
-            assertEquals("Invalid input. Please enter a correct question type.", addCommand.getCommandMessage());
+            assertEquals("Invalid input. Please enter a correct question type. (fitb/mcq/tf)",
+                    addCommand.getCommandMessage());
         }
     }
 

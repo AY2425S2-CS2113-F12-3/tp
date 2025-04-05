@@ -88,7 +88,7 @@ Type <help> for a list of commands.
 [Command you entered: add]
 ==============================
 ==============================
-Please enter the type of the question you would like to add.
+Please enter the type of the question you would like to add. (fitb/mcq/tf)
 ==============================
 ==============================
 Enter your question:
@@ -107,7 +107,7 @@ Type <help> for a list of commands.
 [Command you entered: add]
 ==============================
 ==============================
-Please enter the type of the question you would like to add.
+Please enter the type of the question you would like to add. (fitb/mcq/tf)
 ==============================
 ==============================
 Enter your question:

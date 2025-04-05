@@ -28,6 +28,10 @@ public class QuestionBank {
         return allQuestions.size();
     }
 
+    public List<Question> getAllQuestions() {
+        return this.allQuestions;
+    }
+
     public Question getQuestion(int index) {
         return allQuestions.get(index);
     }

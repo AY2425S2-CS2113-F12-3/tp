@@ -10,6 +10,10 @@ import mindexpander.ui.TextUi;
 
 import mindexpander.commands.Command;
 
+/**
+ * Entry point of Mindexpander application.
+ * Initialises the application and starts the interaction with the user.
+ */
 public class Main {
     // Attributes
     private QuestionBank questionBank;

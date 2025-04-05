@@ -22,7 +22,7 @@ public class SolveCommandTest {
     public void setUp() {
         questionBank = new QuestionBank();
         // Add test questions - note answers are now letter options
-        List<String> options = Arrays.asList("3", "4", "5");
+        List<String> options = Arrays.asList("4", "3", "2", "5");
         questionBank.addQuestion(new MultipleChoice("What is 2+2?", "4", options));
         questionBank.addQuestion(new FillInTheBlanks("The capital of France is ____.", "Paris"));
     }
@@ -77,7 +77,7 @@ public class SolveCommandTest {
         String[] lines = message.split("\n");
         for (String line : lines) {
             if (line.contains(correctAnswer)) {
-                return line.substring(0, 1); // Get the letter prefix
+                return line.trim().substring(0, 1); // Get the letter prefix
             }
         }
         return "";
@@ -87,7 +87,7 @@ public class SolveCommandTest {
         String[] lines = message.split("\n");
         for (String line : lines) {
             if (line.length() > 2 && line.contains(".") && !line.contains(correctAnswer)) {
-                return line.substring(0, 1); // Get the letter prefix
+                return line.trim().substring(0, 1); // Get the letter prefix
             }
         }
         return "";

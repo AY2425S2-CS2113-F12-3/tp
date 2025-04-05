@@ -10,7 +10,6 @@ import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
 import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
-import mindexpander.data.question.QuestionType;
 
 import mindexpander.exceptions.IllegalCommandException;
 
@@ -42,10 +41,6 @@ public class Parser {
      */
     public Command parseCommand (String userEntry, QuestionBank questionBank, QuestionBank lastShownQuestionBank)
             throws IllegalCommandException {
-        if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
-            // Continue processing the ongoing multistep command
-            return manageMultistepCommand(userEntry, questionBank, lastShownQuestionBank);
-        }
 
         // Split into commands and details of task
         String[] stringParts = userEntry.split(" ", 2);
@@ -67,27 +62,11 @@ public class Parser {
     }
 
     /**
-     * Feeds in the userEntry and the correct question bank to the ongoing command.
-     *
-     * @param userEntry the user entry to feed into the ongoing command
-     * @param questionBank the full question bank for commands that need it
-     * @param lastShownQuestionBank the last shown question bank for commands that need it
-     * @return the ongoing command to run again
-     */
-    protected Command manageMultistepCommand(String userEntry, QuestionBank questionBank,
-        QuestionBank lastShownQuestionBank) {
-        if (ongoingCommand.isUsingLastShownQuestionBank()) {
-            return ongoingCommand.handleMultistepCommand(userEntry, lastShownQuestionBank);
-        }
-        return ongoingCommand.handleMultistepCommand(userEntry, questionBank);
-    }
-
-    /**
-     * Handles the solve command by choosing the one-step or multistep version.
+     * Handles the multistep solve command.
      *
      * @param taskDetails the user input string after the solve command.
      * @param lastShownQuestionBank the last shown question bank.
-     * @return either the multistep or one-step version of the solve command.
+     * @return the solve command.
      */
     protected Command handleSolve(String taskDetails, QuestionBank lastShownQuestionBank) {
         if (taskDetails.isEmpty()) {
@@ -97,12 +76,23 @@ public class Parser {
         return ongoingCommand;
     }
 
+    /**
+     * Handles the edit multistep command.
+     *
+     * @param taskDetails the user input string after the solve command.
+     * @param questionBank the main question bank.
+     * @param lastShownQuestionBank the last shown question bank.
+     * @return the edit command.
+     */
     private Command handleEdit(String taskDetails, QuestionBank questionBank, QuestionBank lastShownQuestionBank) {
         try {
             String[] commandArguments = taskDetails.split(" ", 2);
 
             if (commandArguments.length < 2) {
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+                throw new IllegalCommandException("Invalid format. Please use edit [QUESTION_IDEX] [q/a/o]" +
+                        "\n" + "'q' - question content" +
+                        "\n" + "'a' - answer" +
+                        "\n" + "'o' for multiple choice options.");
             }
 
             int indexToEdit = Integer.parseInt(commandArguments[0]);
@@ -112,21 +102,10 @@ public class Parser {
                 throw new IllegalCommandException("Invalid question index.");
             }
 
-            switch (toEdit) {
-            case "q":
-                return new EditCommand(indexToEdit, "question", questionBank, lastShownQuestionBank);
-            case "a":
-                return new EditCommand(indexToEdit, "answer", questionBank, lastShownQuestionBank);
-            case "o":
-                if (lastShownQuestionBank.getQuestion(indexToEdit - 1).getType() == QuestionType.MCQ) {
-                    return new EditCommand(indexToEdit, "option", questionBank, lastShownQuestionBank);
-                }
-                throw new IllegalCommandException("Editing options is only valid for multiple choice question.");
-            default:
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-            }
+            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank);
+
         } catch (NumberFormatException e) {
-            throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
+            throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         }
     }
 

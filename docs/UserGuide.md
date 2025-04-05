@@ -352,13 +352,16 @@ It is recommended to run `list` before `solve` to check the index of the questio
 If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
 displayed by the `find` command, i.e. the last shown list.
 
-Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[NEW_QUESTION_ATTRIBUTES]`
+Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[OPTION_INDEX]` 
+(this step is only applicable if `[QUESTION_ATTRIBUTE]` is `o`) |`[NEW_QUESTION_ATTRIBUTES]`
 
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
 - q - question content
 - a - question answer
-- o - incorrect options *(only applicable to multiple-choice questions)*
+- o - incorrect option *(only applicable to multiple-choice questions)*
+
+`[OPTION_INDEX]`: The index of the incorrect option of a multiple choice question to be modified.
 
 `NEW_QUESTION_ATTRIBUTE`: The updated content for the specified attribute.
 
@@ -366,7 +369,7 @@ Example usage:
 
 These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
 
-1. `edit 2 q`
+1. `edit 2 a`
 ```
 ==============================
 Editing FITB: Where is Siingapore located? [Answer: North America] 
@@ -386,27 +389,31 @@ These examples are for a MCQ question 1, "What are fries made of?" with answer "
 ```
 ==============================
 Editing MCQ: What are fries made of? [Answer: Potato] 
- Please enter the new option:
+ Please enter the index of the option you want to edit: 
+  1. Tomato
+  2. Cheese
+  3. Apple
 ==============================
 ```
-2. `Banana`
+2. `3`
 ```
 ==============================
-Please enter the next option:
+Please enter the new option
 ==============================
 ```
-3. `Lettuce`
+3. `Rock`
 ```
 ==============================
-Please enter the next option:
+Question successfully edited: MCQ: What are fries made of?
+  A. Tomato
+  B. Cheese
+  C. Rock
+  D. Potato
 ==============================
 ```
-4. `Orange`
-```
-==============================
-Question successfully edited: MCQ: What are fries made of? [Answer: Potato]
-==============================
-```
+**Note**
+The actual order of options may be different on your console because the options will be shuffled every time
+the multiple choice question is displayed.
 
 These examples are for a TF question 1, "Burgers are made of potatoes" with the correct answer "true".
 
@@ -543,6 +550,7 @@ of getting the format wrong.
 * View help sheet `help`
 * View help for a specific command `help [COMMAND]`
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
+* Edit question `edit` `QUESTION_INDEXT` `q/a/o` | `OPTION_INDEX` (`[OPTION_INDEX]` only applicable when editing options) | `[NEW_QUESTION_ATTRIBUTES]`
 * List question bank `list`
 * List question bank with answer `list answer`
 * Find a question in the question with a specific keyword `find [KEYWORD]`
