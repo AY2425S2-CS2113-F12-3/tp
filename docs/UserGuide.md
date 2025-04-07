@@ -373,10 +373,10 @@ displayed by the `find` command, i.e. the last shown list.
   > 2. FITB: What is 1+2?
 * Question Index 1 will be the question "What is 1+1?".
 
-Format: `solve [QUESTION INDEX]` `|` `[QUESTION ANSWER]` `|` `[Y/N]` (only if wrong)
-`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
-`[QUESTION_ANSWER]`: The answer to the question.
-`[Y/N]`: Y or N depending on whether you want to keep attempting the question or not.
+Format: `solve [QUESTION INDEX]` `|` `[QUESTION ANSWER]` `|` `[Y/N]` (only if wrong)  
+`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.  
+`[QUESTION_ANSWER]`: The answer to the question.  
+`[Y/N]`: Y or N depending on whether you want to keep attempting the question or not.  
 
 Example usage:
 These examples are for a FITB question 2, "What are fries made of?" with the correct answer "Potato".
@@ -505,7 +505,7 @@ displayed by the `find` command, i.e. the last shown list.
 Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` `|` `[OPTION_INDEX]` 
 (this step is only applicable if `[QUESTION_ATTRIBUTE]` is `o`) `|` `[NEW_QUESTION_ATTRIBUTES]`
 
-`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
+`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.  
 `[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
 - q - question content
 - a - question answer
@@ -612,7 +612,7 @@ Removes a question from the question bank. The question index should refer to th
 
 ---
 
-#### ✅ Example usage (after `list`):
+#### Example usage (after `list`):
 
 ```
 list
@@ -808,8 +808,8 @@ application as a delimiter for saving and loading your questions.
 ### File Format
 The file follows a structured format to allow for proper parsing:
 
-* `[QUESTION_TYPE]|[QUESTION_TEXT]|[ANSWER]` (for FITB and TF)
-* `[QUESTION_TYPE]|[QUESTION_TEXT]|[OPTION1]|[OPTION2]|[OPTION3]|[OPTION4]` (for MCQ)
+* `[QUESTION_TYPE]|[QUESTION_TEXT]|[ANSWER]` (for FITB and TF)  
+* `[QUESTION_TYPE]|[QUESTION_TEXT]|[OPTION1]|[OPTION2]|[OPTION3]|[OPTION4]` (for MCQ)  
 
 #### Example: 
 * Fill-in-the-Blanks questions: FITB`|`What is 2+2?`|`4
